@@ -1,0 +1,21 @@
+---
+title: "Preliminary analysis"
+author: "Max Lindmark & Federico Mailoi"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+  df_print: paged
+pdf_document: default
+editor_options: 
+  chunk_output_type: console
+---
+  
+```{r setup, include = FALSE, cache=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 12,
+  fig.asp = 0.618,
+  fig.align ='center'
+)
+```
