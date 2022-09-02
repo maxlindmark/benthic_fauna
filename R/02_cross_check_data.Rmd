@@ -21,3 +21,30 @@ knitr::opts_chunk$set(
   fig.align ='center'
 )
 ```
+
+## Read data
+
+```{r}
+dat=read.csv2("../data/benthic_data_complete.csv",sep=',',row.names = 1)
+```
+
+## Wide format
+
+The wide format is convenient for Hmsc, GLLVM, and Vegan although is not *tidy*.
+To have a proper wide format we first need to have all abundances/biomass. Either we impute back and forth from abu to biomass by taking the average per taxonomic group, we remove missing data,  or we just use presence-absence data for now.  
+We create a list of dataframes. [[1]] will have the long format. [[2]] will be presence-absence data in the wide format. [[3]] abundance wide format. [[4]] biomass wide format.
+
+```{r}
+data=list()
+data[[1]]=dat
+```
+
+We first create the presence absence data wide
+
+
+```{r}
+# dat.wide=tidyr::pivot_wider(dat, id_cols = c('year','month','day','lon','lat','depth','prov_nr','provID','SubDiv'), names_from = 'species_group',values_from = 'abundance')
+```
+
+
+
