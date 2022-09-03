@@ -21,6 +21,10 @@ knitr::opts_chunk$set(
   fig.align ='center'
 )
 ```
+```{r,include=FALSE}
+library(tidyverse)
+```
+
 
 ## Read data
 
@@ -41,10 +45,32 @@ data[[1]]=dat
 
 We first create the presence absence data wide
 
+```{r}
+# any duplicates?
+dat %>%
+    dplyr::group_by(year, month, day, lon, lat, depth, prov_nr, provID, SubDiv, species_group) %>%
+    dplyr::summarise(n = dplyr::n(), .groups = "drop") %>%
+    dplyr::filter(n > 1L) 
+# yep, compress data via distinct()
+
+```
 
 ```{r}
-# dat.wide=tidyr::pivot_wider(dat, id_cols = c('year','month','day','lon','lat','depth','prov_nr','provID','SubDiv'), names_from = 'species_group',values_from = 'abundance')
+dat$pres=1
+dat.wide.pa=tidyr::pivot_wider(dat, id_cols = c('year','month','day','lon','lat','depth','prov_nr','provID','SubDiv'), names_from = 'taxa',values_from = 'pres',values_fill = 0)
+data[[2]]=dat.wide.pa
 ```
+
+## Check species prevalence (frequency of occurrence)
+```{r}
+par(mar = c(12, 5, 5,5)) 
+#colnames(data[[2]])
+prevalence=(colSums(data[[2]][,-c(1:9)])/dim(data[[2]])[1])*100
+barplot(rev(sort(prevalence)),las=2)
+abline(h=1,col='red') # line at 1 %
+```
+
+
 
 
 
